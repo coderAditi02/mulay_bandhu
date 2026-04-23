@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+    --color-brand-blue: #0ea5e9;
+    --color-brand-pink: #ec4899;
+    --color-brand-navy: #0f172a;
+}
+
+@layer base {
+    :root {
+        --background: #fafafa;
+        --foreground: #0f172a;
+        --card: #ffffff;
+        --card-foreground: #0f172a;
+        --popover: #ffffff;
+        --popover-foreground: #0f172a;
+        --primary: #0ea5e9;
+        --primary-foreground: #ffffff;
+        --secondary: #f1f5f9;
+        --secondary-foreground: #0f172a;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --accent: #ec4899;
+        --accent-foreground: #ffffff;
+        --border: #e2e8f0;
+        --input: #e2e8f0;
+        --ring: #0ea5e9;
+        --radius: 0.75rem;
+    }
+
+    .dark {
+        --background: #020617;
+        --foreground: #f8fafc;
+        --card: #0f172a;
+        --card-foreground: #f8fafc;
+        --popover: #0f172a;
+        --popover-foreground: #f8fafc;
+        --primary: #38bdf8;
+        --primary-foreground: #020617;
+        --secondary: #1e293b;
+        --secondary-foreground: #f8fafc;
+        --muted: #1e293b;
+        --muted-foreground: #94a3b8;
+        --accent: #f472b6;
+        --accent-foreground: #020617;
+        --border: #1e293b;
+        --input: #1e293b;
+        --ring: #38bdf8;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-[length:var(--border)];
+    }
+
+    body {
+        @apply bg-[var(--background)] text-[var(--foreground)];
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
