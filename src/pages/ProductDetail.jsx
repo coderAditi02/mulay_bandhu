@@ -5,22 +5,20 @@ import { ShoppingCart, Heart, MessageCircle, ChevronRight, Truck, ShieldCheck, A
 import Button from '../components/ui/Button';
 import { useCartStore } from '../store/cartStore';
 
-const dummyProducts = {
-    1: { id: 1, name: 'Premium Kurta Set', price: 2999, description: 'Elegant and comfortable premium cotton kurta set, hand-stitched for weddings and festive occasions. Comes with matching pajamas.', category: 'Men\'s Wear', stock: 10, images: ['https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800', 'https://images.unsplash.com/photo-1595909249764-585ee3133de5?q=80&w=800'] },
-    2: { id: 2, name: 'Designer Silk Saree', price: 8499, description: 'Exquisite silk saree with intricate zari work. Perfect for weddings and grand traditional functions. Lightweight and easy to drape.', category: 'Women\'s Wear', stock: 5, images: ['https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800'] },
-    3: { id: 3, name: 'Custom Bhagwan Dress', price: 1499, description: 'Special traditional attire designed specifically for deities. We customize sizes based on your requirements. Includes complete shringar accessories.', category: 'Religious', stock: 20, images: ['https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800'] },
-};
+import { products, getProductWithCategoryData } from '../data/products';
+import { flatCategories } from '../data/categories';
 
 export default function ProductDetail() {
     const { id } = useParams();
     const addToCart = useCartStore(state => state.addToCart);
-    const product = dummyProducts[id] || dummyProducts[1]; // Fallback for dummy
+    const sourceProduct = products.find(p => p.id === String(id) || p.id === id) || products[0];
+    const product = getProductWithCategoryData(sourceProduct, flatCategories);
     const [activeImage, setActiveImage] = useState(0);
     const [quantity, setQuantity] = useState(1);
 
     const handleWhatsAppOrder = () => {
         const text = `Hello! I would like to order: ${product.name} (Amount: ₹${product.price}) - Quantity: ${quantity}`;
-        window.open(`https://wa.me/919876543210?text=${encodeURIComponent(text)}`, '_blank');
+        window.open(`https://wa.me/919011175477?text=${encodeURIComponent(text)}`, '_blank');
     };
 
     return (
@@ -68,7 +66,7 @@ export default function ProductDetail() {
 
                 {/* Product Details */}
                 <div className="w-full md:w-1/2 lg:w-7/12 flex flex-col pt-2 py-8">
-                    <div className="text-sm font-semibold text-pink-500 mb-2 uppercase tracking-wide">{product.category}</div>
+                    <div className="text-sm font-semibold text-pink-500 mb-2 uppercase tracking-wide">{product.category?.name || product.category}</div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">{product.name}</h1>
 
                     <div className="flex items-center gap-4 mb-6">

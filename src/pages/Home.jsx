@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 import Button from '../components/ui/Button';
 import ProductCard from '../components/product/ProductCard';
 
-// Dummy data to visualize before backend integration
-const featuredProducts = [
-    { id: 1, name: 'Premium Kurta Set', price: 2999, category: { name: 'Men\'s Wear' }, isFeatured: true, images: [{ url: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=800&auto=format&fit=crop' }] },
-    { id: 2, name: 'Designer Saree', price: 5499, category: { name: 'Women\'s Wear' }, isFeatured: true, images: [{ url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=800&auto=format&fit=crop' }] },
-    { id: 3, name: 'Custom Bhagwan Dress', price: 1499, category: { name: 'Religious' }, isFeatured: true, images: [{ url: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=800&auto=format&fit=crop' }] },
-    { id: 4, name: 'Traditional Sherwani', price: 8999, category: { name: 'Traditional' }, isFeatured: true, images: [{ url: 'https://images.unsplash.com/photo-1595909249764-585ee3133de5?q=80&w=800&auto=format&fit=crop' }] },
-];
+import { products, getProductWithCategoryData } from '../data/products';
+import { flatCategories } from '../data/categories';
+
+const featuredProducts = products
+    .filter(p => p.isFeatured)
+    .slice(0, 4)
+    .map(p => getProductWithCategoryData(p, flatCategories));
 
 export default function Home() {
     return (
@@ -100,7 +101,7 @@ export default function Home() {
                             </div>
                         </Link>
 
-                        <Link to="/products?category=bhagwan-dresses" className="relative group overflow-hidden rounded-3xl md:row-span-2">
+                        <Link to="/products?category=religious" className="relative group overflow-hidden rounded-3xl md:row-span-2">
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent z-10"></div>
                             <img src="https://images.unsplash.com/photo-1604085572504-a392ddf0d86a?q=80&w=800&auto=format&fit=crop" alt="Religious" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                             <div className="absolute bottom-8 left-8 z-20">

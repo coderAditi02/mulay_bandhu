@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
 import Button from '../ui/Button';
 import { useCartStore } from '../../store/cartStore';
 
@@ -13,6 +13,10 @@ export default function ProductCard({ product }) {
     const price = product?.price || 0;
     const category = product?.category?.name || 'Uncategorized';
     const image = product?.images?.[0]?.url || 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+
+    // Deterministic random rating
+    const ratingNum = 4.0 + ((name.length % 10) / 10);
+    const reviews = (name.charCodeAt(0) * 2) % 300 + 45;
 
     // Convert Strapi URL if relative
     const imageUrl = image.startsWith('/') ? `${import.meta.env.VITE_API_URL || 'http://localhost:1337'}${image}` : image;
@@ -63,10 +67,16 @@ export default function ProductCard({ product }) {
             <div className="p-5 flex flex-col flex-grow">
                 <div className="text-xs text-pink-500 font-medium mb-1 uppercase tracking-wider">{category}</div>
                 <Link to={`/products/${id}`} className="block flex-grow">
-                    <h3 className="font-semibold text-slate-900 dark:text-white mb-2 leading-tight group-hover:text-pink-500 transition-colors line-clamp-2">
+                    <h3 className="font-semibold text-slate-900 dark:text-white leading-tight group-hover:text-pink-500 transition-colors line-clamp-2">
                         {name}
                     </h3>
                 </Link>
+                <div className="flex items-center gap-1 mt-1.5 mb-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} size={14} className={star <= Math.round(ratingNum) ? "text-yellow-400 fill-yellow-400" : "text-slate-200 dark:text-slate-700"} />
+                    ))}
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1">({reviews})</span>
+                </div>
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
                     <span className="font-bold text-lg text-slate-900 dark:text-white">₹{price.toFixed(2)}</span>
                 </div>
